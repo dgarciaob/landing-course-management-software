@@ -1,0 +1,31 @@
+.animate-navbar-slide-down {
+  animation: navbar-slide-down 1s ease-in-out;
+}
+
+.navtext {
+  text-shadow: 0px 0px 20px #fff, 0px 0px 20px #fff;
+}
+
+@keyframes navbar-slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-circle-grow {
+  animation: circle-grow 1.5s ease-in-out;
+}
+
+@keyframes circle-grow {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

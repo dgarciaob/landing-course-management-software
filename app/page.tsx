@@ -1,113 +1,233 @@
+import Link from "next/link";
 import Image from "next/image";
+import InfoButton from "@/components/landing/InfoButton";
+import MaxWidthWrapper from "@/components/landing/MaxWidthWrapper";
+import React, { useEffect, useState } from "react";
+import { Check, Menu, Rocket } from "lucide-react";
+import { learnings } from "@/constants/learnings";
+import "@/components/css/Hero.css";
+import "@/components/css/Navbar.css";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { UserButton, auth } from "@clerk/nextjs";
 
 export default function Home() {
+  const date = new Date();
+  let year = date.getFullYear();
+
+  const { userId } = auth();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="relative">
+      <React.Fragment>
+        <nav className="animate-navbar-slide-down transition border-transparent duration-500 ease-in-out md:flex md:flex-row md:justify-between px-4 py-5 sm:px-6 md:px-8 lg:px-20 w-full z-50 hidden">
+          <div className="flex flex-row space-x-2 items-center">
+            <Link href="/">
+              <Rocket size={24} color="#050250" />
+            </Link>
+            <Link href="/" className={cn("font-bold text-xl navtext")}>
+              JC Guzman
+            </Link>
+          </div>
+          <div className="font-semibold space-x-8 flex flex-row items-center">
+            <Link
+              href="/#cursos"
+              className="hover:font-bold transition-all duration-300 hover:scale-105 scroll-smooth navtext"
+            >
+              Cursos
+            </Link>
+            <Link
+              href="/consultoria"
+              className="hover:font-bold transition-all duration-300 hover:scale-105 scroll-smooth navtext"
+            >
+              Consultoria
+            </Link>
+          </div>
+          {userId ? (
+            <div className="flex flex-row space-x-5 items-center">
+              <Link href="/dashboard">
+                <Button variant="ghost">Dashboard</Button>
+              </Link>
+              <UserButton />
+            </div>
+          ) : (
+            <div className="flex flex-row space-x-5 items-center">
+              <Link href="/sign-up">
+                <Button variant="default">Regístrate</Button>
+              </Link>
+
+              <Link href="/sign-in">
+                <Button variant="secondary">Inicia Sesión</Button>
+              </Link>
+            </div>
+          )}
+        </nav>
+
+        {/* Mobile Navbar */}
+        <nav className="md:hidden z-50 animate-navbar-slide-down transition border-transparent duration-500 ease-in-out fixed w-full p-4 flex justify-between">
+          <Link href={"/"} className="flex items-center">
+            <Rocket size={24} color="#00a8f0" />
+          </Link>
+          <Sheet>
+            <SheetTrigger>
+              <Menu className="w-8 h-8" />
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[250px] bg-[#F6F5FF]">
+              <div className="flex flex-row space-x-2 mb-20">
+                <Rocket size={24} color="#00a8f0" />
+
+                <p className="font-bold tracking-tight">JC Guzman</p>
+              </div>
+
+              <div className="flex flex-col space-y-8">
+                <Link
+                  href="#cursos"
+                  className="text-primary hover:text-[#00a8f0] hover:font-bold transition-all duration-300 scroll-smooth"
+                >
+                  Cursos
+                </Link>
+                <Link
+                  href="/consultoria"
+                  className="text-primary hover:text-[#00a8f0] hover:font-bold transition-all duration-300"
+                >
+                  Consultoria
+                </Link>
+              </div>
+
+              <div className="tracking-light font-medium absolute bottom-8">
+                Copyright © Juan Carlos Guzman {year}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </nav>
+      </React.Fragment>
+
+      {/* Hero Section */}
+      <section className="h-auto w-auto background-gradient rounded-3xl mx-8 px-16 py-20 overflow-hidden relative mt-5">
+        <div className="animate-hero-slide-up">
+          <h1 className="text-2xl font-semibold text-[#050250] lg:text-6xl max-w-3xl">
+            Domina el Mercado Inmobiliario con nuestra guía experta
+          </h1>
+          <p className="mt-10 max-w-3xl lg:text-xl font-medium">
+            Obtén acceso a las estrategias, prácticas de venta y las mejores
+            técnicas de negociación de un experto para escalar tu negocio.
+          </p>
+          <div className="md:flex md:flex-row md:space-x-6 mt-24">
+            <button className="bg-[#050250] px-8 py-4 rounded-full text-white font-bold hover:scale-105 hover:bg-[#050250]/80 transition-all duration-300">
+              Agenda una Cita
+            </button>
+            <InfoButton />
+          </div>
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
         <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+          src="/imgEjemplo.png"
+          alt="Juan Carlos Guzman"
+          width="1000"
+          height="1000"
+          className="w-80 absolute bottom-0 right-10 z-40 animate-hero-slide-up transition-all duration-300 ease-in-out"
         />
-      </div>
+        <div className="bg-[#050250] absolute -bottom-40 -right-8 h-[26rem] w-[26rem] rounded-full animate-circle-grow" />
+      </section>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      {/* Problem Section */}
+      <section className="h-auto w-auto lg:mt-60 rounded-b-3xl">
+        <MaxWidthWrapper className="flex flex-col justify-center items-center">
+          <div className="flex flex-col space-y-4">
+            <h2 className="text-center text-xl lg:text-5xl max-w-3xl text-[#050250] font-bold">
+              ¿Qué aprenderás en esta guía?
+            </h2>
+            <p className="text-center text-lg lg:text-2xl max-w-2xl text-muted-foreground font-medium">
+              Aprende de un referente <strong>nacional</strong> del rubro
+            </p>
+          </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+          <div className="flex flex-col lg:flex lg:flex-row lg:space-x-32 items-center mt-24">
+            <Image
+              src="/hero-4.jpg"
+              alt="Team Picture"
+              width="1000"
+              height="1000"
+              className="object-contain w-1/2 h-full rounded-3xl"
+            />
+            <div className="flex flex-col space-y-8 w-1/2">
+              {learnings.map((learning, id) => {
+                return (
+                  <React.Fragment key={id}>
+                    <div className="flex flex-row space-x-4 items-center">
+                      <div className="flex justify-center items-center h-6 w-6 rounded-full bg-[#050250]">
+                        <Check size={16} color="white" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-[#050250]">
+                        {learning.title}
+                      </h3>
+                    </div>
+                    <p className="text-base text-pretty font-medium">
+                      {learning.description}
+                    </p>
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          </div>
+        </MaxWidthWrapper>
+      </section>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+      <section className="h-auto w-auto lg:mt-60 rounded-b-[5rem] bg-muted pb-20">
+        <MaxWidthWrapper className="flex flex-col justify-center items-center">
+          <div className="flex flex-col space-y-4">
+            <h2 className="text-center text-xl lg:text-5xl max-w-4xl text-[#050250] font-bold mt-20">
+              Dictada por un referente Nacional
+            </h2>
+            <p className="text-center text-lg lg:text-2xl max-w-3xl text-muted-foreground font-medium">
+              Mira un preview de lo que aprenderás
+            </p>
+          </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+          <div className="flex flex-col lg:flex lg:flex-row lg:space-x-32 items-center mt-24">
+            <div className="flex flex-col space-y-8 w-1/2">
+              {learnings.map((learning, id) => {
+                return (
+                  <React.Fragment key={id}>
+                    <div className="flex flex-row space-x-4 items-center">
+                      <div className="flex justify-center items-center h-6 w-6 rounded-full bg-[#050250]">
+                        <Check size={16} color="white" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-[#050250]">
+                        {learning.title}
+                      </h3>
+                    </div>
+                    <p className="text-base text-pretty font-medium">
+                      {learning.description}
+                    </p>
+                  </React.Fragment>
+                );
+              })}
+            </div>
+            <Image
+              src="/hero-4.jpg"
+              alt="Team Picture"
+              width="1000"
+              height="1000"
+              className="object-contain w-1/2 h-full rounded-3xl"
+            />
+          </div>
+        </MaxWidthWrapper>
+      </section>
+
+      {/* CTA Section */}
+
+      <section className="h-auto w-auto lg:mt-32 rounded-b-3xl flex flex-col lg:flex lg:flex-row lg:justify-around lg:items-center">
+        <h3 className="text-center text-xl lg:text-4xl max-w-2xl text-[#050250] font-bold">
+          Comienza tu cambio y separa una cita con Juan Carlos
+        </h3>
+        <button className="bg-[#050250] px-8 py-4 rounded-full max-h-14 text-white font-bold hover:scale-105 hover:bg-[#050250]/80 transition-all duration-300">
+          Agenda una Cita
+        </button>
+      </section>
+
+      <div className="mt-20"></div>
     </main>
   );
 }
