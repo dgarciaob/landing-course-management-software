@@ -92,7 +92,7 @@ export const ChaptersList = ({
                     </div>
                     {chapter.title}
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
-                      {chapter.isFree && <Badge>Free</Badge>}
+                      {chapter.isFree && <Badge>Gratis</Badge>}
                       <Badge
                         className={cn(
                           "bg-slate-500",
