@@ -3,28 +3,40 @@
 import { Category } from "@prisma/client";
 import {
   FcEngineering,
-  FcFilmReel,
-  FcMultipleDevices,
-  FcMusic,
-  FcOldTimeCamera,
   FcSalesPerformance,
   FcSportsMode,
+  FcAddressBook,
+  FcMoneyTransfer,
 } from "react-icons/fc";
 
 import { IconType } from "react-icons";
+import { CategoryItem } from "./CategoryItem";
 
 interface CategoriesProps {
   items: Category[];
 }
 
 const iconMap: Record<Category["name"], IconType> = {
-  "Dirección Comercial": FcMusic,
-  Tributario: FcMusic,
-  Legal: FcMusic,
-  Marketing: FcMusic,
-  Ventas: FcMusic,
+  "Dirección Comercial": FcEngineering,
+  Tributario: FcAddressBook,
+  Legal: FcMoneyTransfer,
+  Marketing: FcSportsMode,
+  Ventas: FcSalesPerformance,
 };
 
 export const Categories = ({ items }: CategoriesProps) => {
-  return <div></div>;
+  return (
+    <div className="flex items-center gap-x-2 overflow-x-auto pb-2">
+      {items.map((item) => {
+        return (
+          <CategoryItem
+            key={item.id}
+            label={item.name}
+            icon={iconMap[item.name]}
+            value={item.id}
+          />
+        );
+      })}
+    </div>
+  );
 };
