@@ -1,8 +1,11 @@
 import { getChapter } from "@/actions/get-chapter";
 import { Banner } from "@/components/Banner";
 import { CourseEnrollButton } from "@/components/CourseEnrollButton";
+import { Preview } from "@/components/Preview";
 import { VideoPlayer } from "@/components/VideoPlayer";
+import { Separator } from "@/components/ui/separator";
 import { auth } from "@clerk/nextjs";
+import { File } from "lucide-react";
 import { redirect } from "next/navigation";
 
 const ChapterIdPage = async ({
@@ -72,6 +75,30 @@ const ChapterIdPage = async ({
               />
             )}
           </div>
+          <Separator />
+          <div>
+            <Preview value={chapter.description!} />
+          </div>
+          {!!attachments.length && (
+            <>
+              <Separator />
+              <div className="p-4">
+                {attachments.map((attachment) => {
+                  return (
+                    <a
+                      key={attachment.id}
+                      href={attachment.url}
+                      target="_blank"
+                      className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                    >
+                      <File />
+                      <p className="line-clamp-1">{attachment.name}</p>
+                    </a>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
