@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ToasterProvider } from "@/components/providers/toaster-provider";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
 import Navbar from "@/components/landing/Navbar";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body
+          className={cn("min-h-screen font-sans antialiased", inter.className)}
+        >
           <ConfettiProvider />
           <ToasterProvider />
           {children}
